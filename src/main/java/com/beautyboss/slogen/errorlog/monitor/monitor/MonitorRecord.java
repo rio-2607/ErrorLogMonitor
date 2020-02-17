@@ -1,7 +1,10 @@
 package com.beautyboss.slogen.errorlog.monitor.monitor;
 
+import com.beautyboss.slogen.errorlog.monitor.utils.DateTimeUtils;
 import com.beautyboss.slogen.errorlog.monitor.utils.MachineUtils;
 import lombok.Data;
+
+import java.sql.Time;
 
 /**
  * Author : Slogen
@@ -24,6 +27,8 @@ public class MonitorRecord {
 
     private String message; //  格式化之前的消息
 
+    private String time; // 日志产生的时间
+
 
     @Override
     public String toString() {
@@ -32,6 +37,7 @@ public class MonitorRecord {
                 "ip:[" + ip + "]\n"+
                 "hostName:[" + hostName + "]\n" +
                 "formatMessage:[" + formatMessage + "]\n" +
+                "time:[" + time + "]\n" +
                 "stackMessage:[\n" + stackMessage + "]";
     }
 
@@ -47,6 +53,7 @@ public class MonitorRecord {
         record.setStackMessage(stackTrackInfo);
         record.setEnv(env);
         record.setMessage(message);
+        record.setTime(DateTimeUtils.now());
         return record;
     }
 
