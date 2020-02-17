@@ -2,14 +2,14 @@ package com.beautyboss.slogen.errorlog.monitor.appender;
 
 
 import com.beautyboss.slogen.errorlog.monitor.monitor.MonitorRecord;
-import com.beautyboss.slogen.errorlog.monitor.monitor.MonitorService;
-import com.beautyboss.slogen.errorlog.monitor.monitor.impl.WechatMonitor;
+import com.beautyboss.slogen.errorlog.monitor.monitor.AlarmService;
+import com.beautyboss.slogen.errorlog.monitor.monitor.impl.WechatAlarm;
 
 /**
  * Author : Slogen
  * Date   : 2020-02-05 13:58
  */
-public class WechatMonitorAppender extends AbstractMonitorAppender {
+public class WechatAlarmAppender extends AbstractAlarmAppender {
 
     private String appName;
 
@@ -21,9 +21,9 @@ public class WechatMonitorAppender extends AbstractMonitorAppender {
 
     private String webHookUrl;
 
-    private MonitorService monitorService;
+    private AlarmService alarmService;
 
-    public WechatMonitorAppender() {
+    public WechatAlarmAppender() {
 
     }
 
@@ -59,15 +59,15 @@ public class WechatMonitorAppender extends AbstractMonitorAppender {
 
     @Override
     protected void monitor(MonitorRecord monitorRecord) {
-        if(null == monitorService) {
+        if(null == alarmService) {
             synchronized (this) {
-                if(null == monitorService) {
+                if(null == alarmService) {
                     //  monitorService需要保持单例且要懒加载
-                    monitorService = new WechatMonitor(webHookUrl,coreThreadNum,maxThreadNum);
+                    alarmService = new WechatAlarm(webHookUrl,coreThreadNum,maxThreadNum);
                 }
             }
         }
-        monitorService.monitor(monitorRecord);
+        alarmService.alarm(monitorRecord);
     }
 
     @Override

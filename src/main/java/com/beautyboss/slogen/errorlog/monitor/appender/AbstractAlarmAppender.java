@@ -12,7 +12,7 @@ import com.beautyboss.slogen.errorlog.monitor.utils.ThrowableUtils;
  * Author : Slogen
  * Date   : 2020-02-05 13:38
  */
-public abstract class AbstractMonitorAppender extends AppenderBase<LoggingEvent> {
+public abstract class AbstractAlarmAppender extends AppenderBase<LoggingEvent> {
     @Override
     protected void append(LoggingEvent eventObject) {
         try {
@@ -33,13 +33,11 @@ public abstract class AbstractMonitorAppender extends AppenderBase<LoggingEvent>
                 stackTraceInfo = ThrowableUtils.getThrowableStackTrace(t);
             }
             MonitorRecord record = MonitorRecord.buildRecord(stackTraceInfo,userLogedErrorMessage,
-                    getAppName(),getEnv(),eventObject.getMessage());
+                    getAppName(),getEnv());
             monitor(record);
         } catch (Exception e) {
             addError("日志报警异常，异常原因:{}",e);
         }
-
-
     }
 
     protected abstract String getAppName();

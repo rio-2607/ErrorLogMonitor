@@ -4,8 +4,6 @@ import com.beautyboss.slogen.errorlog.monitor.utils.DateTimeUtils;
 import com.beautyboss.slogen.errorlog.monitor.utils.MachineUtils;
 import lombok.Data;
 
-import java.sql.Time;
-
 /**
  * Author : Slogen
  * Date   : 2020-02-05 13:40
@@ -21,7 +19,7 @@ public class MonitorRecord {
 
     private String env;
 
-    private String formatMessage; // 格式化之后的消息
+    private String userLoggedMsg; // 格式化之后的消息
 
     private String stackMessage; // 异常堆栈消息
 
@@ -36,23 +34,22 @@ public class MonitorRecord {
                 "env:[" +  env + "]\n" +
                 "ip:[" + ip + "]\n"+
                 "hostName:[" + hostName + "]\n" +
-                "formatMessage:[" + formatMessage + "]\n" +
+                "userLoggedMsg:[" + userLoggedMsg + "]\n" +
                 "time:[" + time + "]\n" +
                 "stackMessage:[\n" + stackMessage + "]";
     }
 
 
     public static MonitorRecord buildRecord(String stackTrackInfo,String userLoggedMessage,
-                                            String appName,String env,String message) {
+                                            String appName,String env) {
         MonitorRecord record = new MonitorRecord();
         record.setAppName(appName);
         MachineUtils.Machine machine = MachineUtils.getMachineInfo();
         record.setIp(machine.ip);
         record.setHostName(machine.hostName);
-        record.setFormatMessage(userLoggedMessage);
+        record.setUserLoggedMsg(userLoggedMessage);
         record.setStackMessage(stackTrackInfo);
         record.setEnv(env);
-        record.setMessage(message);
         record.setTime(DateTimeUtils.now());
         return record;
     }
